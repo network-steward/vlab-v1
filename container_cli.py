@@ -14,7 +14,7 @@ if __name__ == '__main__':
                         help='either specify action start_containers or stop_containers to start/stop the containers')
 
     group.add_argument('-s', '--subaction', dest='subaction', type=str, nargs="+", action="extend",
-                        choices=['init_container','init_cont_interfaces', 'init_cont_conf', 'ontainer_interface_delete', 
+                        choices=['init_container','init_cont_interfaces', 'init_cont_conf', 'container_interface_delete', 
                         'container_delete', 'init_lldp','init_static_routes'],
                         help='Allow a user to call a subaction of start_containers or stop_containers.')
 
