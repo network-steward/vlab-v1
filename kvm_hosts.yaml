@@ -1,0 +1,45 @@
+kvm_nodes:
+    - hostname: veos01
+      management_mac: 00:01:0F:67:c3:a5
+      image_name: veos01.qcow2
+      type: veos
+      interfaces:
+         - interface: eth1
+           bridge: veos01-vjunos01
+         - interface: eth2
+           bridge: veos01-b-et2
+    - hostname: vjunos01
+      management_mac: 00:01:0F:67:c3:a6
+      image_name: vjunos.qcow2
+      type: vjunos
+      interfaces:
+         - interface: ge0
+           bridge: veos01-vjunos01
+         - interface: ge1
+           bridge: vjunos-b-ge1
+
+container_nodes:
+    - hostname: ubsrv01
+      docker_image: ub-docker
+      mgmtip: 172.16.0.2/24
+      node_type: ubuntu_container
+      interfaces:
+        - interface: eth1
+          bridge: veos01-b-et2
+          type: logical
+          ip_address: 192.168.1.2/24
+      routes:
+        - subnet: 192.168.2.0/24
+          gateway: "192.168.1.1"
+    - hostname: ubsrv02
+      docker_image: ub-docker
+      mgmtip: 172.16.0.3/24
+      node_type: ubuntu_container
+      interfaces:
+        - interface: eth1
+          bridge: vjunos-b-ge1
+          type: logical
+          ip_address: 192.168.2.2/24
+      routes:
+        - subnet: 192.168.1.0/24
+          gateway: "192.168.2.1"
